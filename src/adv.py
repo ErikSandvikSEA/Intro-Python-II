@@ -55,23 +55,84 @@ def castle_quest():
     playing = True
 
     # Make a new player object that is currently in the 'outside' room.
-    player = Player(
-        "Dave", room["outside"].name, ["flask", "castle map", "healing elixir"]
-    )
+    player = Player("Dave", room["outside"], ["flask", "castle map", "healing elixir"])
 
     def print__player_status():
         print(f"PLAYER STATUS:\n{player}")
 
+    #
+    # If the user enters a cardinal direction, attempt to move to the room there.
+    # Print an error message if the movement isn't allowed.
+    #
+    # If the user enters "q", quit the game.
     # HANDLES PLAYER MOVEMENTS
     def handle_movements(command):
-        if len(command.split()) == 1:
-            print("hey")
+        error_message = "Sorry, you can't go that direction"
+
+        if command == "n":
+            # do north stuff
+            if not hasattr(player.current_room, "n_to"):
+                print(error_message)
+
+            else:
+                player.current_room = player.current_room.n_to
+                print(f"{player.name} enters {player.current_room.name}")
+
+        elif command == "e":
+            # do east stuff
+            if not hasattr(player.current_room, "e_to"):
+                print(error_message)
+
+            else:
+                player.current_room = player.current_room.e_to
+                print(f"{player.name} enters {player.current_room.name}")
+
+        elif command == "s":
+            # do south stuff
+            if not hasattr(player.current_room, "s_to"):
+                print(error_message)
+
+            else:
+                player.current_room = player.current_room.s_to
+                print(f"{player.name} enters {player.current_room.name}")
+
+        elif command == "w":
+            # do west stuff
+            if not hasattr(player.current_room, "w_to"):
+                print(error_message)
+
+            else:
+                player.current_room = player.current_room.w_to
+                print(f"{player.name} enters {player.current_room.name}")
+
+        elif command == "m":
+            blank_wall = "a blank wall"
+            if not hasattr(player.current_room, "n_to"):
+                player.current_room.n_to = blank_wall
+            if not hasattr(player.current_room, "e_to"):
+                player.current_room.e_to = blank_wall
+            if not hasattr(player.current_room, "s_to"):
+                player.current_room.s_to = blank_wall
+            if not hasattr(player.current_room, "w_to"):
+                player.current_room.w_to = blank_wall
+            print("Player checks the map...")
+            print(f"To the north: {player.current_room.n_to}")
+            print(f"To the east: {player.current_room.e_to}")
+            print(f"To the south: {player.current_room.s_to}")
+            print(f"To the west: {player.current_room.w_to}")
+
         else:
             print("\nCommand not recognized, please enter a valid command\n")
 
     # HANDLE USER INPUT
     def handle_input():
-        user_input = input("\nNext command:\npress 'h' for command help\n")
+        user_input = input("\nNext command:\npress 'm' to view map\n")
+        if user_input == "quit":
+            print("You have abandoned the castle cave!")
+            quit()
+
+        if len(user_input) == 1:
+            handle_movements(user_input)
 
     # Write a loop that:
     #
@@ -83,13 +144,6 @@ def castle_quest():
         print__player_status()
         handle_input()
         print("\n-------------------------------------------------------\n")
-
-
-#
-# If the user enters a cardinal direction, attempt to move to the room there.
-# Print an error message if the movement isn't allowed.
-#
-# If the user enters "q", quit the game.
 
 
 castle_quest()
