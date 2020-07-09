@@ -176,7 +176,7 @@ def castle_quest():
         # HANDLES ADDING ITEM TO INVENTORY
         def add_to_inventory(item):
             # print(item)
-            print(player.current_room.items[0])
+            # print(player.current_room.items[0])
             for i in player.current_room.items:
                 if i.name == item:
                     player.items.append(i)
@@ -185,11 +185,26 @@ def castle_quest():
                 else:
                     print("Item not found\n")
 
+        # HANDLES DROPPING AN ITEM
+        def drop_item(item):
+            for i in player.items:
+                if i.name == item:
+                    player.items.remove(i)
+                    player.current_room.items.append(i)
+                    print(
+                        f"{i.name} removed from inventory and dropped in the middle of the room ... \n"
+                    )
+                else:
+                    print(f"Item not found in {player.name}'s inventory")
+
         action = commands[0]
         item_to_manipulate = commands[1]
 
         if (action == "take") or (action == "get"):
             add_to_inventory(item_to_manipulate)
+
+        if action == "drop":
+            drop_item(item_to_manipulate)
 
     # HANDLE USER INPUT
     def handle_input():
