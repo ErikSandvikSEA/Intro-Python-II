@@ -7,5 +7,5 @@ class Player:
         self.items = items
 
     def __str__(self):
-        return f"Name: {self.name}\nCurrent Room Name: {self.current_room.name}\nItems: {self.items}"
+        return f"Name: {self.name}\nCurrent Room Name: {self.current_room.name}\n"
 
