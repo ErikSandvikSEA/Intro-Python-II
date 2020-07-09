@@ -9,3 +9,10 @@ class Player:
     def __str__(self):
         return f"Name: {self.name}\nCurrent Room Name: {self.current_room.name}\n"
 
+    # def try_direction(self, command):
+    #     attribute = command + "_to"
+
+    #     if hasattr(self.current_room, attribute):
+    #         self.current_room = getattr(self.current_room, attribute)
+    #     else:
+    #         print("Cannot go that direction")

@@ -8,14 +8,14 @@ room = {
     "outside": Room(
         "Outside Cave Entrance",
         "North of you, the cave mount beckons",
-        [Item("explorer skeleton", "looks like others have tried before...")],
+        [Item("skeleton", "looks like others have tried before...")],
     ),
     "foyer": Room(
         "Foyer",
         """Dim light filters in from the south. Dusty
 passages run north and east.""",
         [
-            Item("unlit torch", "a torch without lighter fluid or flame"),
+            Item("torch", "a torch without lighter fluid or flame"),
             Item("flint", "can be used to make a spark"),
         ],
     ),
@@ -30,8 +30,8 @@ the distance, but there is no way across the chasm.""",
         """The narrow passage bends here from west
 to north. The smell of gold permeates the air.""",
         [
-            Item("bucket of lighter fluid", "used to power the torch flame"),
-            Item("samurai helmet", "adds +10 def when equipped"),
+            Item("lighter-fluid", "used to power the torch flame"),
+            Item("helmet", "adds +10 def when equipped"),
         ],
     ),
     "treasure": Room(
@@ -40,9 +40,9 @@ to north. The smell of gold permeates the air.""",
 chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south.""",
         [
-            Item("empty treasure chest", "what a bummer..."),
+            Item("chest(empty)", "what a bummer..."),
             Item(
-                "mysterious cluster of stones",
+                "stones",
                 "perhaps if we re-arrange these stones a secret will be revealed",
             ),
         ],
@@ -159,6 +159,12 @@ def castle_quest():
             for item in player.items:
                 print(f"Item: {item.name}\nDescription: {item.description}\n")
 
+        elif command == "c":
+            if len(player.current_room.items) > 0:
+                player.current_room.print_items()
+            else:
+                print("No items found in this room\n")
+
         else:
             print("\nCommand not recognized, please enter a valid command\n")
 
@@ -166,16 +172,30 @@ def castle_quest():
 
     # HANDLES TAKING/DROPPING ITEMS
     def handle_double_commands(commands):
-        action = commands[0]
-        item = commands[1]
 
-        print(action)
-        print(item)
+        # HANDLES ADDING ITEM TO INVENTORY
+        def add_to_inventory(item):
+            # print(item)
+            print(player.current_room.items[0])
+            for i in player.current_room.items:
+                if i.name == item:
+                    player.items.append(i)
+                    player.current_room.items.remove(i)
+                    print(f"{i.name} added to inventory\n")
+                else:
+                    print("Item not found\n")
+
+        action = commands[0]
+        item_to_manipulate = commands[1]
+
+        if (action == "take") or (action == "get"):
+            add_to_inventory(item_to_manipulate)
 
     # HANDLE USER INPUT
     def handle_input():
+
         user_input = input(
-            "\nNext command:\npress 'm' to view map\npress 'i' to view current inventory\n"
+            "\npress 'm' to view map\npress 'i' to view current inventory\npress 'c' to check for items\nNext command:\n"
         )
         if user_input == "quit":
             print("You have abandoned the castle cave!")
