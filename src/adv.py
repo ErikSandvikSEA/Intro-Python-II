@@ -100,7 +100,9 @@ def castle_quest():
 
         if command == "n":
             # do north stuff
-            if not hasattr(player.current_room, "n_to"):
+            if (not hasattr(player.current_room, "n_to")) or (
+                player.current_room.w_to != "blank wall"
+            ):
                 print(error_message)
 
             else:
@@ -109,7 +111,9 @@ def castle_quest():
 
         elif command == "e":
             # do east stuff
-            if not hasattr(player.current_room, "e_to"):
+            if (not hasattr(player.current_room, "e_to")) or (
+                player.current_room.e_to != "blank wall"
+            ):
                 print(error_message)
 
             else:
@@ -118,7 +122,9 @@ def castle_quest():
 
         elif command == "s":
             # do south stuff
-            if not hasattr(player.current_room, "s_to"):
+            if (not hasattr(player.current_room, "s_to")) or (
+                player.current_room.s_to != "blank wall"
+            ):
                 print(error_message)
 
             else:
@@ -127,7 +133,9 @@ def castle_quest():
 
         elif command == "w":
             # do west stuff
-            if not hasattr(player.current_room, "w_to"):
+            if (not hasattr(player.current_room, "w_to")) or (
+                player.current_room.w_to != "blank wall"
+            ):
                 print(error_message)
 
             else:
